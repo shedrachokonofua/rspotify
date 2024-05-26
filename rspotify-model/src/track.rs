@@ -70,6 +70,7 @@ pub struct SimplifiedTrack {
     pub external_urls: HashMap<String, String>,
     #[serde(default)]
     pub href: Option<String>,
+    #[serde(default)]
     pub id: Option<TrackId<'static>>,
     pub is_local: bool,
     pub is_playable: Option<bool>,
