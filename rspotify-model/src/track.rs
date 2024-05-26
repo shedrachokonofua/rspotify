@@ -44,21 +44,13 @@ pub struct FullTrack {
 pub struct TrackLink {
     pub external_urls: HashMap<String, String>,
     pub href: String,
-    pub id: TrackId<'static>,
+    pub id: Option<TrackId<'static>>,
 }
 
 /// Intermediate full track wrapped by `Vec`
 #[derive(Deserialize)]
 pub struct FullTracks {
     pub tracks: Vec<FullTrack>,
-}
-
-fn deserialize_null_default<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-where
-    T: Default + serde::Deserialize<'de>,
-    D: serde::Deserializer<'de>,
-{
-    Ok(Option::deserialize(deserializer)?.unwrap_or_default())
 }
 
 /// Simplified track object.
@@ -78,7 +70,6 @@ pub struct SimplifiedTrack {
     pub external_urls: HashMap<String, String>,
     #[serde(default)]
     pub href: Option<String>,
-    #[serde(deserialize_with = "deserialize_null_default")]
     pub id: Option<TrackId<'static>>,
     pub is_local: bool,
     pub is_playable: Option<bool>,
